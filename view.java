@@ -139,12 +139,12 @@ public class view extends JPanel  {
        // int filas = leer.leerInt("Numero de filas:");
        // int columnas = leer.leerInt("Numero de columnas:");
         //*/
-        int filas = 20;
-        int columnas = 20;
+        int filas = 120;
+        int columnas = 120;
   
   
         //int porcentaje = leer.leerIntMatriz("Numero de porcentaje:");
-        int porcentaje = 20;
+        int porcentaje = 0;
         GrafoMatriz grafo = new GrafoMatriz (filas ,columnas, porcentaje);
         return grafo;
         

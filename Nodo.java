@@ -5,7 +5,7 @@ public class Nodo {
     private int posicion_y;
     private boolean bloqueado;
     public static enum Estado { NOVISITADO, ABIERTO, CERRADO,META,INICIO };
-
+    private int stepsTaken; 
     private Estado estado = Estado.NOVISITADO;
     private double heuristic; // heuristic
     private Nodo backPathNode;
@@ -34,6 +34,14 @@ public class Nodo {
         this.bloqueado = bloqueado;
         this.id = id;
     }
+    public int getStepsTaken() {
+        return stepsTaken;
+    }
+
+    public void setStepsTaken(int stepsTaken) {
+        this.stepsTaken = stepsTaken;
+    }
+    
     public void setF(double F){
         this.F = F;
     }

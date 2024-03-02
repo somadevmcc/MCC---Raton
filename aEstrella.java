@@ -63,8 +63,10 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             }
             
             if (goalTest(EA)) {
+                optimalPath = filterDirectPath(optimalPath);
                 marcarCamino(EA);
-                
+                EA.setEstado(Nodo.Estado.META);
+                grafo.setEstado(EA);
                 double tiempoFinal = (System.currentTimeMillis() - startTime) / 1000.0;
                 System.out.println("Goal reached! Inicio:"+ this.inicio +" Meta:"+this.goal+" Tiempo: " + tiempoFinal + " segs");
                 
@@ -87,15 +89,37 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             grafo.setEstado(node);
             grafoInterno.setEstado(node);
         }
-    
-      
-       
-        
-        goalNode.setEstado(Nodo.Estado.META);
-        grafoInterno.setEstado(goalNode);
         optimalPath.push(goalNode);
     
         publish();
+    }
+    private Stack<Nodo> filterDirectPath(Stack<Nodo> originalPath) {
+        Stack<Nodo> filteredPath = new Stack<>();
+        
+        // Add the goal node to the filtered path
+        filteredPath.push(originalPath.pop());
+    
+        // Iterate over the original path to filter out unnecessary steps
+        while (!originalPath.isEmpty()) {
+            Nodo currentNode = originalPath.pop();
+            Nodo nextNode = filteredPath.peek();
+    
+            // Check if the nodes are in the top, bottom, left, or right direction
+            if (isAdjacent(currentNode, nextNode)) {
+                filteredPath.push(currentNode);
+            }
+        }
+    
+        // Reverse the stack to get the correct order
+        Collections.reverse(filteredPath);
+    
+        return filteredPath;
+    }
+    
+    private boolean isAdjacent(Nodo node1, Nodo node2) {
+        int xDiff = Math.abs(node1.getPosX() - node2.getPosX());
+        int yDiff = Math.abs(node1.getPosY() - node2.getPosY());
+        return (xDiff == 0 && yDiff == 1) || (xDiff == 1 && yDiff == 0);
     }
     private Stack<Nodo> expand(Nodo EA){
         Stack<Nodo> OS = new Stack<Nodo>();
@@ -139,7 +163,7 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
     }
     private boolean goalTest(Nodo EA) {
         
-        return (EA).equals(this.goal);
+        return (EA.getNombre()).equals(this.goal.getNombre());
     }
     
     private void evaluate(Stack<Nodo> F, Nodo nodoActual ,Stack<Nodo> OS) {
