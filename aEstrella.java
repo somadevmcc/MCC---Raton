@@ -57,7 +57,7 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             
            
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -73,6 +73,9 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             } else {
             publish();
             Stack<Nodo> OS = expand(EA);
+            if(EA.getNombre().equals("1212")){
+                System.out.println();
+            }
             evaluate(F,EA,OS);
             AEstrella(F);
             
@@ -157,9 +160,12 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
         return OS;
     }
     
-    public double calcularDistancias(Nodo meta, Nodo actual){
+    public double getDistanciaRecorrida(Nodo meta, Nodo actual){
 
         return Math.sqrt(Math.pow(actual.getPosX()-meta.getPosX(),2)+Math.pow(actual.getPosY()-meta.getPosY(),2));
+    }
+    private double calcularDistancias(Nodo meta, Nodo actual){
+        return Math.abs(actual.getPosX()-meta.getPosX())+Math.abs(actual.getPosY()-meta.getPosY());
     }
     private boolean goalTest(Nodo EA) {
         
@@ -172,7 +178,7 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
 
         while(!OS.empty()){
             Nodo nodoVecino = OS.pop();
-            distanciaAInicio = calcularDistancias(inicio, nodoVecino);
+            distanciaAInicio = getDistanciaRecorrida(inicio, nodoVecino);
             nodoVecino.setDistancia(distanciaAInicio);
             distanciaAFinal = calcularDistancias(goal, nodoVecino);
             nodoVecino.setHeuristic(distanciaAFinal);
@@ -183,7 +189,6 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             grafo.setEstado(nodoVecino);
 
             OSList.add(nodoVecino);
-
         }
 
         while(!F.empty()){
@@ -194,7 +199,8 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
         for (Nodo nodo : OSList) {
             F.add(0,nodo);
         }
-       
+        
+        //F.add(0,OSList.get(0));
 
     }
 }
