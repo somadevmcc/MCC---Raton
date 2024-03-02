@@ -73,17 +73,26 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             } else {
             publish();
             Stack<Nodo> OS = expand(EA);
-            if(EA.getNombre().equals("1212")){
-                System.out.println();
-            }
-            evaluate(F,EA,OS);
+            evaluate(OS);
+            Append(F,OS);
+            Sort(F);
             AEstrella(F);
+            
             
             }
         }
     }
+    private void Append(Stack<Nodo> F, Stack<Nodo> OS) {
+        while (!OS.isEmpty()) {
+            F.push(OS.pop());
+        }
+    }
+    private void Sort(Stack<Nodo> F) {
+        F.sort((node1, node2) -> Double.compare(node2.getF(), node1.getF()));
+        
+       // Collections.sort(F, Collections.reverseOrder()); 
+    }
 
-   
     private void marcarCamino(Nodo goalNode) {
     
         while (!optimalPath.isEmpty()) {
@@ -172,10 +181,24 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
         return (EA.getNombre()).equals(this.goal.getNombre());
     }
     
-    private void evaluate(Stack<Nodo> F, Nodo nodoActual ,Stack<Nodo> OS) {
+    private void evaluate( Stack<Nodo> OS) {
         double distanciaAFinal,distanciaAInicio = 0;
         ArrayList<Nodo> OSList = new ArrayList<>();
+        int index = OS.size();
+        for( int i = 0;i<index;i++){
+            Nodo nodoVecino = OS.pop();
+            distanciaAInicio = getDistanciaRecorrida(inicio, nodoVecino);
+            nodoVecino.setDistancia(distanciaAInicio);
+            distanciaAFinal = calcularDistancias(goal, nodoVecino);
+            nodoVecino.setHeuristic(distanciaAFinal);
+            
+            nodoVecino.setF(distanciaAInicio + distanciaAFinal);
 
+            nodoVecino.setEstado(Nodo.Estado.ABIERTO);
+            grafo.setEstado(nodoVecino);
+
+            OS.add(0,nodoVecino);
+        }/*/
         while(!OS.empty()){
             Nodo nodoVecino = OS.pop();
             distanciaAInicio = getDistanciaRecorrida(inicio, nodoVecino);
@@ -188,9 +211,9 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
             nodoVecino.setEstado(Nodo.Estado.ABIERTO);
             grafo.setEstado(nodoVecino);
 
-            OSList.add(nodoVecino);
+            OS.add(0,nodoVecino);
         }
-
+        /*
         while(!F.empty()){
             OSList.add(F.pop());
         }
@@ -199,7 +222,7 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
         for (Nodo nodo : OSList) {
             F.add(0,nodo);
         }
-        
+        */
         //F.add(0,OSList.get(0));
 
     }

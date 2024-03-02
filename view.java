@@ -38,7 +38,7 @@ public class view extends JPanel  {
                 System.out.print("Opcion:");
                 
                // int opcion = leer.leerInt("Favor de seleccionar una opcion");
-                int opcion = 6;
+                int opcion = 5;
                 switch(opcion){
                   case 1:
                       inicio = leer.leerStringMatriz("Favor de escribir la coordenada de inicio: ejemplo 0,0",grafoMatriz);
@@ -100,6 +100,24 @@ public class view extends JPanel  {
                       break;
                   case 6:
                       
+                    int numeroRatones = leer.leerInt("Favor de escribir el numero de ratones a competir: ");
+                    List<Thread> threadList = new ArrayList<>();
+                    for(int i=0;i<numeroRatones;i++){
+                        inicio = leer.leerStringMatriz("Favor de escribir la coordenada de inicio: ejemplo 0,0",grafoMatriz);
+                        meta = leer.leerStringMatriz("Favor de escribir la coordenada meta: ejemplo 0,1",grafoMatriz);
+
+                        Thread ratonThread = new Thread(() -> {
+                            aEstrella estrellaRaton = new aEstrella(grafoMatriz.getNodo(Integer.parseInt(inicio.split(",")[0]), Integer.parseInt(inicio.split(",")[1])),
+                            grafoMatriz.getNodo(Integer.parseInt(meta.split(",")[0]), Integer.parseInt(meta.split(",")[1])),grafoMatriz, mapView1);
+    
+                           
+                        });
+                        threadList.add(ratonThread);
+
+                    }
+
+                    
+
                       Thread raton1 = new Thread(() -> {
                           
                           aEstrella ratonA = new aEstrella(grafoMatriz.nodoInicial(), grafoMatriz.nodoCentral(), grafoMatriz, mapView1);
