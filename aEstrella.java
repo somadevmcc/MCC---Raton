@@ -90,7 +90,7 @@ public class aEstrella extends SwingWorker<Void, Nodo>{
     private void Sort(Stack<Nodo> F) {
         F.sort((node1, node2) -> Double.compare(node2.getF(), node1.getF()));
         
-       // Collections.sort(F, Collections.reverseOrder()); 
+      
     }
 
     private void marcarCamino(Nodo goalNode) {

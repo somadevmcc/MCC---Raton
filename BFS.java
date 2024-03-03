@@ -48,7 +48,7 @@ public class BFS extends SwingWorker<Void, Nodo> {
             grafo.setEstado(EA);
             blackList.add(""+EA.getPosX()+""+EA.getPosY());
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

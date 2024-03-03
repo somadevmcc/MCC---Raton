@@ -21,9 +21,9 @@ public class Graficos extends JPanel {
         int cols = grafoMatriz.getColumnas();
 
         grid = new Nodo[rows][cols];
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
-                grid[y][x] = grafoMatriz.getNodo(y, x);
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < cols; y++) {
+                grid[x][y] = grafoMatriz.getNodo(x, y);
             }
         }
     }
@@ -41,9 +41,9 @@ public class Graficos extends JPanel {
         int tileSizeX = getWidth() / cols;
         int tileSizeY = getHeight() / rows;
 
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
-                Nodo current = grid[y][x];
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < cols; y++) {
+                Nodo current = grid[x][y];
                 int rx = x * tileSizeX;
                 int ry = y * tileSizeY;
 

@@ -47,7 +47,7 @@ public class Greedy extends SwingWorker<Void, Nodo>{
             grafo.setEstado(EA);
             optimalPath.push(EA);
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -58,39 +58,40 @@ public class Greedy extends SwingWorker<Void, Nodo>{
             } else {
             publish();
             Stack<Nodo> OS = expand(EA);
-            evaluate(F,EA,OS);
-            
+            evaluate(OS);
+            Append(F,OS);
+            Sort(F);
             GBFS(F);
             }
         }
     }
-    private void evaluate(Stack<Nodo> F, Nodo nodoActual ,Stack<Nodo> OS) {
+    private void Sort(Stack<Nodo> F) {
+        F.sort((node1, node2) -> Double.compare(node2.getF(), node1.getF()));
+        
+      
+    }
+
+    private void Append(Stack<Nodo> F, Stack<Nodo> OS) {
+        while (!OS.isEmpty()) {
+            F.push(OS.pop());
+        }
+    }
+    private void evaluate(Stack<Nodo> OS) {
         double distanciaAFinal,distanciaAInicio = 0;
         ArrayList<Nodo> OSList = new ArrayList<>();
-
-        while(!OS.empty()){
+        int index = OS.size();
+        for( int i = 0;i<index;i++){
             Nodo nodoVecino = OS.pop();
-         
             distanciaAFinal = calcularDistancias(goal, nodoVecino);
             nodoVecino.setHeuristic(distanciaAFinal);
             
-            nodoVecino.setF(distanciaAFinal);
+            nodoVecino.setF(distanciaAInicio + distanciaAFinal);
 
+            nodoVecino.setEstado(Nodo.Estado.ABIERTO);
+            grafo.setEstado(nodoVecino);
 
-            OSList.add(nodoVecino);
-
+            OS.add(0,nodoVecino);
         }
-
-
-       
-
-        // Step 2: Sort the List by distancia
-        while(!F.empty()){
-            OSList.add(F.pop());
-        }
-        Collections.sort(OSList, (node1, node2) -> Double.compare(node1.getF(), node2.getF()));
-        
-        F.add(0,OSList.get(0));
 
     }
     public double calcularDistancias(Nodo meta, Nodo actual){
@@ -98,8 +99,9 @@ public class Greedy extends SwingWorker<Void, Nodo>{
         int dx = meta.getPosX() - actual.getPosX();
         int dy = meta.getPosY() - actual.getPosY();
 
-        return Math.sqrt(dx * dx + dy * dy);
+        //return Math.sqrt(dx * dx + dy * dy);
         //return Math.sqrt(Math.pow(actual.getPosX()-meta.getPosX(),2)+Math.pow(actual.getPosY()-meta.getPosY(),2));
+        return Math.sqrt(Math.pow(actual.getPosX()-meta.getPosX(),2)+Math.pow(actual.getPosY()-meta.getPosY(),2));
     }
     private Stack<Nodo> expand(Nodo EA){
         Stack<Nodo> OS = new Stack<Nodo>();
