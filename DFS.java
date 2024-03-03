@@ -58,7 +58,7 @@ public class DFS extends SwingWorker<Void, Nodo> {
             } else {
             publish();
             Stack<Nodo> OS = expand(EA);
-        Append(F,OS);
+            Append(F,OS);
             DFS(F);
             }
         }

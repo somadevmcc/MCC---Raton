@@ -36,13 +36,12 @@ public class view extends JPanel  {
                 System.out.println("2. DFS");
                 System.out.println("3. A*");
                 System.out.println("4. Greedy");
-                System.out.println("5. Raton 2 ventanas");
+                System.out.println("5. Raton 2 ventanas automatico");
                 System.out.println("6. Raton 1 ventana automatico");
                 System.out.println("7. Raton 1 ventana manual");
                 System.out.print("Opcion:");
                 
                 int opcion = leer.leerInt("Favor de seleccionar una opcion");
-               // int opcion = 2;
                 switch(opcion){
                   case 1:
                       inicio = leer.leerStringMatriz("Favor de escribir la coordenada de inicio: ejemplo 0,0",grafoMatriz);
@@ -92,7 +91,7 @@ public class view extends JPanel  {
                       frame2.setResizable(true);
                       frame2.setSize(800, 600);
                       frame2.setLocation((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - frame2.getWidth(), 0);
-      
+                      frame2.setAlwaysOnTop(true);
                       frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                       frame2.setVisible(true);
       
@@ -166,15 +165,15 @@ public class view extends JPanel  {
     public static GrafoMatriz crearMatriz(){
         Leer leer = new Leer();
         
-       // int filas = leer.leerInt("Numero de filas:");
-       // int columnas = leer.leerInt("Numero de columnas:");
+        int filas = leer.leerInt("Numero de filas:");
+        int columnas = leer.leerInt("Numero de columnas:");
         //*/
-        int filas = 20;
-        int columnas = 20;
+        //int filas = 20;
+        //int columnas = 20;
   
   
-        //int porcentaje = leer.leerIntMatriz("Numero de porcentaje:");
-        int porcentaje = 20;
+        int porcentaje = leer.leerIntMatriz("Numero de porcentaje:");
+        //int porcentaje = 20;
         GrafoMatriz grafo = new GrafoMatriz (filas ,columnas, porcentaje);
         return grafo;
         
